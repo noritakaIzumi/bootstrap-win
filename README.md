@@ -5,7 +5,7 @@ Motivated with dotfiles.
 
 ## How to use
 
-Run `Get-ExecutionPolicy`.  
+Open PowerShell and run `Get-ExecutionPolicy`.  
 If it returns `Restricted`, then run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`.
 
 Now run `install.ps1`.
