@@ -14,6 +14,6 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 
 # Install dependencies via choco
 $config_path = (Get-Item $PSCommandPath).DirectoryName + '\choco.config'
-cinst $config_path -y
+choco install $config_path -y
 
 Read-Host "Press enter key..."
