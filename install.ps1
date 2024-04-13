@@ -15,17 +15,23 @@ function RunAsAdmin()
     Start-Process powershell.exe "-File `"$File`"" -Verb RunAs
 }
 
-if (-not (IsAdmin))
+function Main
 {
-    RunAsAdmin -File $PSCommandPath
+    if (-not (IsAdmin))
+    {
+        RunAsAdmin -File $PSCommandPath
+        exit
+    }
+
+    $ScriptDir = "${PSScriptRoot}\script"
+    $ConfigDir = "${PSScriptRoot}\config"
+
+    . ${ScriptDir}\choco.ps1 -Config ${ConfigDir}\choco.config
+    . ${ScriptDir}\winget.ps1 -File ${ConfigDir}\winget_dependencies.txt
+
+    # End
+    Read-Host "Press enter key..."
     exit
 }
 
-$ScriptDir = "${PSScriptRoot}\script"
-$ConfigDir = "${PSScriptRoot}\config"
-
-. ${ScriptDir}\choco.ps1 -Config ${ConfigDir}\choco.config
-. ${ScriptDir}\winget.ps1 -File ${ConfigDir}\winget_dependencies.txt
-
-# End
-Read-Host "Press enter key..."
+Main
