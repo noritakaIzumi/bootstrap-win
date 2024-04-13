@@ -14,8 +14,11 @@ function SuAdmin()
 
 SuAdmin
 
-. ${PSScriptRoot}\script\choco.ps1 -Config ${PSScriptRoot}\choco.config
-. ${PSScriptRoot}\script\winget.ps1 -File ${PSScriptRoot}\winget_dependencies.txt
+$ScriptDir = "${PSScriptRoot}\script"
+$ConfigDir = "${PSScriptRoot}"
+
+. ${ScriptDir}\choco.ps1 -Config ${ConfigDir}\choco.config
+. ${ScriptDir}\winget.ps1 -File ${ConfigDir}\winget_dependencies.txt
 
 # End
 Read-Host "Press enter key..."
