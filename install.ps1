@@ -15,16 +15,11 @@ function RunAsAdmin()
     Start-Process powershell.exe "-File `"$File`"" -Verb RunAs
 }
 
-function SuAdmin()
+if (-not (IsAdmin))
 {
-    if (-not (IsAdmin))
-    {
-        RunAsAdmin -File $PSCommandPath
-        exit
-    }
+    RunAsAdmin -File $PSCommandPath
+    exit
 }
-
-SuAdmin
 
 $ScriptDir = "${PSScriptRoot}\script"
 $ConfigDir = "${PSScriptRoot}\config"
