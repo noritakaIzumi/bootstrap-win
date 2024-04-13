@@ -1,4 +1,4 @@
-param($Config)
+param([string]$Config)
 
 # Install chocolatey
 if (!(Get-Command choco -ErrorAction SilentlyContinue))

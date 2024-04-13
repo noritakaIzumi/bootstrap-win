@@ -1,4 +1,4 @@
-param($File)
+param([string]$File)
 
 $dependencies = [string[]](Get-Content -Path $File | Select-Object)
 $source = "winget"
