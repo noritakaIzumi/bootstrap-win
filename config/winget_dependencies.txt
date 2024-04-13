@@ -1,1 +1,9 @@
+7zip.7zip
+Docker.DockerDesktop
+FiloSottile.mkcert
+GnuPG.Gpg4win
+JetBrains.Toolbox
+Microsoft.VisualStudioCode
+SlackTechnologies.Slack
 Sony.MusicCenter
+Zoom.Zoom
