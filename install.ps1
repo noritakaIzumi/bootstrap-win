@@ -15,7 +15,7 @@ function SuAdmin()
 SuAdmin
 
 $ScriptDir = "${PSScriptRoot}\script"
-$ConfigDir = "${PSScriptRoot}"
+$ConfigDir = "${PSScriptRoot}\config"
 
 . ${ScriptDir}\choco.ps1 -Config ${ConfigDir}\choco.config
 . ${ScriptDir}\winget.ps1 -File ${ConfigDir}\winget_dependencies.txt
