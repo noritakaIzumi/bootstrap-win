@@ -3,11 +3,23 @@ function Log($message)
     Write-Output "`n${message}`n"
 }
 
+function IsAdmin
+{
+    return ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole("Administrators")
+}
+
+function RunAsAdmin()
+{
+    param([string]$File)
+
+    Start-Process powershell.exe "-File `"$File`"" -Verb RunAs
+}
+
 function SuAdmin()
 {
-    if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole("Administrators"))
+    if (-not (IsAdmin))
     {
-        Start-Process powershell.exe "-File `"$PSCommandPath`"" -Verb RunAs
+        RunAsAdmin -File $PSCommandPath
         exit
     }
 }
