@@ -16,4 +16,5 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 $config_path = (Get-Item $PSCommandPath).DirectoryName + '\choco.config'
 choco install $config_path -y
 
+# End
 Read-Host "Press enter key..."
