@@ -1,3 +1,8 @@
+function Log($message)
+{
+    Write-Output "`n${message}`n"
+}
+
 # Install chocolatey
 if (!(Get-Command choco -ErrorAction SilentlyContinue))
 {
@@ -15,6 +20,8 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 # Install dependencies via choco
 $config_path = (Get-Item $PSCommandPath).DirectoryName + '\choco.config'
 choco install $config_path -y
+
+. ${PSScriptRoot}\scripts\winget.ps1 -File ${PSScriptRoot}\winget_dependencies.txt
 
 # End
 Read-Host "Press enter key..."
