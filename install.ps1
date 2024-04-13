@@ -8,7 +8,7 @@ function IsAdmin
     return ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole("Administrators")
 }
 
-function RunAsAdmin()
+function RunAsAdmin
 {
     param([string]$File)
 
