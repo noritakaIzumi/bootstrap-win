@@ -3,6 +3,15 @@ function Log($message)
     Write-Output "`n${message}`n"
 }
 
+function SuAdmin()
+{
+    if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole("Administrators"))
+    {
+        Start-Process powershell.exe "-File `"$PSCommandPath`"" -Verb RunAs
+        exit
+    }
+}
+
 # Install chocolatey
 if (!(Get-Command choco -ErrorAction SilentlyContinue))
 {
@@ -10,12 +19,7 @@ if (!(Get-Command choco -ErrorAction SilentlyContinue))
     Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 }
 
-## Su admin
-if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole("Administrators"))
-{
-    Start-Process powershell.exe "-File `"$PSCommandPath`"" -Verb RunAs
-    exit
-}
+SuAdmin
 
 # Install dependencies via choco
 $config_path = (Get-Item $PSCommandPath).DirectoryName + '\choco.config'
