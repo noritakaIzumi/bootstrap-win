@@ -12,7 +12,9 @@ function RunAsAdmin
 {
     param([string]$File, [string]$_Args = "")
 
+    Log "Executing ${File} as admin... (args: ${_Args})"
     Start-Process powershell.exe "-File `"$File`" $_Args" -Verb RunAs -Wait
+    Log "Done."
 }
 
 function Main
