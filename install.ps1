@@ -15,15 +15,6 @@ function RunAsAdmin
     Start-Process powershell.exe "-File `"$File`" $_Args" -Verb RunAs -Wait
 }
 
-function Run
-{
-    param([string]$File, [string]$_Args = "")
-
-    Log "Executing ${File}... (args: ${_Args})"
-    Invoke-Expression ". ${File} ${_Args}"
-    Log "Done."
-}
-
 function Main
 {
     if (-not (IsAdmin))
@@ -35,8 +26,8 @@ function Main
     $ScriptDir = "${PSScriptRoot}\script"
     $ConfigDir = "${PSScriptRoot}\config"
 
-    Run -File ${ScriptDir}\choco.ps1 -_Args "-Config ${ConfigDir}\choco.config"
-    Run -File ${ScriptDir}\winget.ps1 -_Args "-File ${ConfigDir}\winget_dependencies.txt"
+    . ${ScriptDir}\choco.ps1 -Config ${ConfigDir}\choco.config
+    . ${ScriptDir}\winget.ps1 -File ${ConfigDir}\winget_dependencies.txt
 
     # End
     Read-Host "Press enter key..."
