@@ -10,9 +10,9 @@ function IsAdmin
 
 function RunAsAdmin
 {
-    param([string]$File)
+    param([string]$File, [string]$_Args = "")
 
-    Start-Process powershell.exe "-File `"$File`"" -Verb RunAs
+    Start-Process powershell.exe "-File `"$File`" $_Args" -Verb RunAs
 }
 
 function Main
