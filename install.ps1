@@ -17,13 +17,22 @@ function RunAsAdmin
     Log "Done."
 }
 
+function Run
+{
+    param([string]$File, [string]$_Args = "")
+
+    Log "Executing ${File}... (args: ${_Args})"
+    Invoke-Expression ". ${File} ${_Args}"
+    Log "Done."
+}
+
 function Main
 {
     $ScriptDir = "${PSScriptRoot}\script"
     $ConfigDir = "${PSScriptRoot}\config"
 
     RunAsAdmin -File ${ScriptDir}\choco.ps1 -_Args "-Config ${ConfigDir}\choco.config"
-    . ${ScriptDir}\winget.ps1 -File ${ConfigDir}\winget_dependencies.txt
+    Run -File ${ScriptDir}\winget.ps1 -_Args "-File ${ConfigDir}\winget_dependencies.txt"
 
     # End
     Read-Host "Press enter key..."
