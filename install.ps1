@@ -12,9 +12,7 @@ function RunAsAdmin
 {
     param([string]$File, [string]$_Args = "")
 
-    Log "Executing ${File} as admin... (args: ${_Args})"
     Start-Process powershell.exe "-File `"$File`" $_Args" -Verb RunAs -Wait
-    Log "Done."
 }
 
 function Run
@@ -28,10 +26,16 @@ function Run
 
 function Main
 {
+    if (-not (IsAdmin))
+    {
+        RunAsAdmin -File $PSCommandPath
+        exit
+    }
+
     $ScriptDir = "${PSScriptRoot}\script"
     $ConfigDir = "${PSScriptRoot}\config"
 
-    RunAsAdmin -File ${ScriptDir}\choco.ps1 -_Args "-Config ${ConfigDir}\choco.config"
+    Run -File ${ScriptDir}\choco.ps1 -_Args "-Config ${ConfigDir}\choco.config"
     Run -File ${ScriptDir}\winget.ps1 -_Args "-File ${ConfigDir}\winget_dependencies.txt"
 
     # End
