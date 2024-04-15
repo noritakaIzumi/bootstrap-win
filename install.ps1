@@ -74,6 +74,43 @@ function InstallWingetDependencies
     Log "Install winget dependencies: END"
 }
 
+function InstallScoopDependencies
+{
+    param([string]$BucketsFile, [string]$DependenciesFile)
+
+    Log "Install scoop dependencies: START"
+
+    scoop update
+
+    $expectedBuckets = [string[]](Get-Content -Path $BucketsFile | Select-Object)
+    $actualBuckets = scoop bucket list | Select-Object -ExpandProperty name
+    foreach ($bucket in $expectedBuckets)
+    {
+        if ($bucket -notin $actualBuckets)
+        {
+            scoop bucket add $bucket
+        }
+    }
+
+    $expectedDependencies = [string[]](Get-Content -Path $DependenciesFile | Select-Object)
+    $actualDependencies = scoop list | Select-Object -ExpandProperty name
+    foreach ($dependency in $expectedDependencies)
+    {
+        if ($dependency -in $actualDependencies)
+        {
+            Log "Upgrading ${dependency}..."
+            scoop update $dependency
+        }
+        else
+        {
+            Log "Installing ${dependency}..."
+            scoop install $dependency
+        }
+    }
+
+    Log "Install scoop dependencies: END"
+}
+
 function Main
 {
     if (-not (IsAdmin))
@@ -86,6 +123,7 @@ function Main
 
     InstallChocoDependencies -File ${ConfigDir}\choco_dependencies.txt
     InstallWingetDependencies -File ${ConfigDir}\winget_dependencies.txt
+    InstallScoopDependencies -BucketsFile ${ConfigDir}\scoop_buckets.txt -DependenciesFile ${ConfigDir}\scoop_dependencies.txt
 
     # End
     Read-Host "Press enter key..."

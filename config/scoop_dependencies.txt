@@ -1,0 +1,2 @@
+git-chglog
+ios-webkit-debug-proxy
