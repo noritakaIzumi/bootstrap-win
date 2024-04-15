@@ -17,7 +17,7 @@ function RunAsAdmin
 
 function InstallChocoDependencies
 {
-    param([string]$Config)
+    param([string]$File)
 
     # Install chocolatey
     if (!(Get-Command choco -ErrorAction SilentlyContinue))
@@ -26,7 +26,21 @@ function InstallChocoDependencies
         Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
     }
 
-    choco install "${Config}" -y
+    $dependencies = [string[]](Get-Content -Path $File | Select-Object)
+    foreach ($dependency in $dependencies)
+    {
+        Log "Searching ${dependency} from the installed..."
+        if (choco list --limit-output --exact $dependency)
+        {
+            Log "Upgrading ${dependency}..."
+            choco upgrade -y $dependency
+        }
+        else
+        {
+            Log "Installing ${dependency}..."
+            choco install -y $dependency
+        }
+    }
 }
 
 function InstallWingetDependencies
@@ -62,7 +76,7 @@ function Main
 
     $ConfigDir = "${PSScriptRoot}\config"
 
-    InstallChocoDependencies -Config ${ConfigDir}\choco.config
+    InstallChocoDependencies -File ${ConfigDir}\choco_dependencies.txt
     InstallWingetDependencies -File ${ConfigDir}\winget_dependencies.txt
 
     # End
