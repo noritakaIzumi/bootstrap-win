@@ -26,6 +26,8 @@ function InstallChocoDependencies
         Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
     }
 
+    Log "Install choco dependencies: START"
+
     $dependencies = [string[]](Get-Content -Path $File | Select-Object)
     foreach ($dependency in $dependencies)
     {
@@ -41,11 +43,15 @@ function InstallChocoDependencies
             choco install -y $dependency
         }
     }
+
+    Log "Install choco dependencies: END"
 }
 
 function InstallWingetDependencies
 {
     param([string]$File)
+
+    Log "Install winget dependencies: START"
 
     $dependencies = [string[]](Get-Content -Path $File | Select-Object)
     $source = "winget"
@@ -64,6 +70,8 @@ function InstallWingetDependencies
             winget install --exact --id $dependency --source $source
         }
     }
+
+    Log "Install winget dependencies: END"
 }
 
 function Main
