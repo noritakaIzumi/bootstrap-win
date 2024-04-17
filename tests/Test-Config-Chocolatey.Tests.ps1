@@ -1,6 +1,6 @@
 #Requires -RunAsAdministrator
 
-$UseEnhancedExitCodesFeatureDisabled = [string](choco feature get useEnhancedExitCodes).Contains("Disabled")
+$global:UseEnhancedExitCodesFeatureDisabled = (choco feature get useEnhancedExitCodes).Contains("Disabled")
 
 BeforeAll {
     if ($UseEnhancedExitCodesFeatureDisabled)
