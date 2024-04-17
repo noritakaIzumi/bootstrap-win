@@ -12,7 +12,7 @@ function RunAsAdmin
 {
     param([string]$File, [string]$_Args = "")
 
-    Start-Process powershell.exe "-File `"$File`" $_Args" -Verb RunAs -Wait
+    Start-Process pwsh.exe "-File `"$File`" $_Args" -Verb RunAs -Wait
 }
 
 function InstallChocoDependencies
