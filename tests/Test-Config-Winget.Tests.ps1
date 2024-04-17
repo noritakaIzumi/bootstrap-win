@@ -1,3 +1,10 @@
+BeforeDiscovery {
+    if (!(Get-Command winget))
+    {
+        Set-ItResult -Skipped -Because "Winget is not installed"
+    }
+}
+
 BeforeAll {
 }
 

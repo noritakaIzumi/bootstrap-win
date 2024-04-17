@@ -1,3 +1,10 @@
+BeforeDiscovery {
+    if (!(Get-Command choco))
+    {
+        Set-ItResult -Skipped -Because "Chocolatey is not installed"
+    }
+}
+
 BeforeAll {
 }
 

@@ -1,3 +1,10 @@
+BeforeDiscovery {
+    if (!(Get-Command scoop))
+    {
+        Set-ItResult -Skipped -Because "Scoop is not installed"
+    }
+}
+
 $global:ScoopSearchInstalled = $null -ne (scoop list "^scoop-search$" | Select-Object -ExpandProperty Name)
 
 BeforeAll {
