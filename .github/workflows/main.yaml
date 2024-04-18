@@ -8,6 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Pester
+        shell: pwsh
         run: |
           Install-Module -Name Pester -Force
           Import-Module Pester -PassThru
@@ -16,10 +17,12 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install package manager
+        shell: pwsh
         run: |
           .\init.ps1
           (Resolve-Path ~\scoop\shims).Path >> $Env:GITHUB_PATH
       - name: Test
+        shell: pwsh
         run: |
           $config = New-PesterConfiguration
           $config.CodeCoverage.Enabled = $true
@@ -41,8 +44,10 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install package manager
+        shell: pwsh
         run: |
           .\init.ps1
           (Resolve-Path ~\scoop\shims).Path >> $Env:GITHUB_PATH
       - name: Install packages
+        shell: pwsh
         run: .\install.ps1
