@@ -21,17 +21,6 @@ jobs:
         run: |
           .\init.ps1
           (Resolve-Path ~\scoop\shims).Path >> $Env:GITHUB_PATH
-      - name: search
-        run: |
-          winget search --exact --id 7zip.7zip --accept-source-agreements
-          winget search --exact --id Docker.DockerDesktop --accept-source-agreements
-          winget search --exact --id FiloSottile.mkcert --accept-source-agreements
-          winget search --exact --id GnuPG.Gpg4win --accept-source-agreements
-          winget search --exact --id JetBrains.Toolbox --accept-source-agreements
-          winget search --exact --id Microsoft.VisualStudioCode --accept-source-agreements
-          winget search --exact --id SlackTechnologies.Slack --accept-source-agreements
-          winget search --exact --id Sony.MusicCenter --accept-source-agreements
-          winget search --exact --id Zoom.Zoom --accept-source-agreements
       - name: Test
         shell: pwsh
         run: |
