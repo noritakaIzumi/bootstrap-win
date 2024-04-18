@@ -2,8 +2,14 @@
 Docker.DockerDesktop
 FiloSottile.mkcert
 GnuPG.Gpg4win
+Google.Chrome
+Google.GoogleDrive
 JetBrains.Toolbox
+Microsoft.OneDrive
+Microsoft.PowerShell
 Microsoft.VisualStudioCode
+Microsoft.WindowsTerminal
 SlackTechnologies.Slack
 Sony.MusicCenter
+Volta.Volta
 Zoom.Zoom
