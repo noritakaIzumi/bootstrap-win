@@ -8,7 +8,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install package manager
-        run: .\init.ps1
+        run: |
+          .\init.ps1
+          echo "{path}" >> $GITHUB_PATH
       - name: Install Pester
         run: |
           Install-Module -Name Pester -Force
@@ -31,6 +33,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install package manager
-        run: .\init.ps1
+        run: |
+          .\init.ps1
+          echo "{path}" >> $GITHUB_PATH
       - name: Install packages
         run: .\install.ps1
