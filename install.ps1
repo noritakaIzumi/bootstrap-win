@@ -53,7 +53,7 @@ function InstallWingetDependencies
         Log "Searching ${dependency} from the installed..."
         if ($Env:CI)
         {
-            winget list --exact --id $dependency --source $source --accept-package-agreements --accept-source-agreements
+            winget list --exact --id $dependency --source $source --accept-source-agreements
         }
         else
         {
