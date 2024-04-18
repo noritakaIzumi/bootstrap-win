@@ -51,16 +51,38 @@ function InstallWingetDependencies
     foreach ($dependency in $dependencies)
     {
         Log "Searching ${dependency} from the installed..."
-        winget list --exact --id $dependency --source $source
+        if ($Env:CI)
+        {
+            winget list --exact --id $dependency --source $source --accept-package-agreements --accept-source-agreements
+        }
+        else
+        {
+            winget list --exact --id $dependency --source $source
+        }
+
         if ($?)
         {
             Log "Upgrading ${dependency}..."
-            winget upgrade --exact --id $dependency --source $source
+            if ($Env:CI)
+            {
+                winget upgrade --exact --id $dependency --source $source --accept-package-agreements --accept-source-agreements
+            }
+            else
+            {
+                winget upgrade --exact --id $dependency --source $source
+            }
         }
         else
         {
             Log "Installing ${dependency}..."
-            winget install --exact --id $dependency --source $source
+            if ($Env:CI)
+            {
+                winget install --exact --id $dependency --source $source --accept-package-agreements --accept-source-agreements
+            }
+            else
+            {
+                winget install --exact --id $dependency --source $source
+            }
         }
     }
 

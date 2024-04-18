@@ -6,6 +6,17 @@ BeforeDiscovery {
 }
 
 BeforeAll {
+    function Search-Winget-Package([string]$Package)
+    {
+        if ($Env:CI)
+        {
+            winget search --exact --id $Package --accept-source-agreements
+        }
+        else
+        {
+            winget search --exact --id $Package
+        }
+    }
 }
 
 AfterAll {
@@ -14,7 +25,7 @@ AfterAll {
 Describe 'Test-Config-Winget' {
     $Packages = [string[]](Get-Content -Path ${PSScriptRoot}\..\config\winget_dependencies.txt | Select-Object)
     It 'The Package "<_>" exists in winget' -ForEach $Packages {
-        winget search --exact --id $_
+        Search-Winget-Package $_
         $? | Should -Be $true
     }
 }
