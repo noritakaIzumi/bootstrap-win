@@ -18,7 +18,7 @@ jobs:
       - name: Install package manager
         run: |
           .\init.ps1
-          echo "~\scoop\shims" >> $GITHUB_PATH
+          echo (Resolve-Path ~\scoop\shims).Path >> $Env:GITHUB_PATH
       - name: Test
         run: |
           $config = New-PesterConfiguration
@@ -43,6 +43,6 @@ jobs:
       - name: Install package manager
         run: |
           .\init.ps1
-          echo "~\scoop\shims" >> $GITHUB_PATH
+          echo (Resolve-Path ~\scoop\shims).Path >> $Env:GITHUB_PATH
       - name: Install packages
         run: .\install.ps1
