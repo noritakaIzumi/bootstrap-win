@@ -34,6 +34,7 @@ Describe 'Test-Config-Scoop' {
     $Buckets = [string[]](Get-Content -Path ${PSScriptRoot}\..\config\scoop_buckets.txt | Select-Object)
     It 'The bucket "<_>" exists in scoop' -ForEach $Buckets {
         $_ | Should -BeIn $KnownBuckets
+        scoop bucket add $bucket
     }
     $expectedDependencies = [string[]](Get-Content -Path ${PSScriptRoot}\..\config\scoop_dependencies.txt | Select-Object)
     It 'The Package "<_>" exists in scoop' -ForEach $expectedDependencies {
