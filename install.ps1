@@ -78,6 +78,12 @@ function InstallScoopDependencies
 {
     param([string]$BucketsFile, [string]$DependenciesFile)
 
+    # Install scoop
+    if (!(Get-Command scoop -ErrorAction SilentlyContinue))
+    {
+        Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+    }
+
     Log "Install scoop dependencies: START"
 
     scoop update
