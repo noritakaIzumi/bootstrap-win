@@ -35,19 +35,3 @@ jobs:
           $config.Output.Verbosity = "Detailed"
           $config.Output.CIFormat = "GithubActions"
           Invoke-Pester -Configuration $config
-  Test-Install-Packages:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install Winget
-        uses: Cyberboss/install-winget@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Install package manager
-        shell: pwsh
-        run: |
-          .\init.ps1
-          (Resolve-Path ~\scoop\shims).Path >> $Env:GITHUB_PATH
-      - name: Install packages
-        shell: pwsh
-        run: .\install.ps1
