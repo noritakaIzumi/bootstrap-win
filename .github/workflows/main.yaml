@@ -7,14 +7,14 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install package manager
-        run: |
-          .\init.ps1
-          echo "{path}" >> $GITHUB_PATH
       - name: Install Pester
         run: |
           Install-Module -Name Pester -Force
           Import-Module Pester -PassThru
+      - name: Install package manager
+        run: |
+          .\init.ps1
+          echo "{path}" >> $GITHUB_PATH
       - name: Test
         run: |
           $config = New-PesterConfiguration
