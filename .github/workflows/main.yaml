@@ -11,6 +11,10 @@ jobs:
         run: |
           Install-Module -Name Pester -Force
           Import-Module Pester -PassThru
+      - name: Install Winget
+        uses: Cyberboss/install-winget@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install package manager
         run: |
           .\init.ps1
@@ -32,6 +36,10 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install Winget
+        uses: Cyberboss/install-winget@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install package manager
         run: |
           .\init.ps1
