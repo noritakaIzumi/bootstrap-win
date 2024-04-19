@@ -4,7 +4,7 @@ FiloSottile.mkcert
 GnuPG.Gpg4win
 Google.Chrome
 Google.GoogleDrive
-JetBrains.Toolbox
+# JetBrains.Toolbox
 Microsoft.OneDrive
 Microsoft.PowerShell
 Microsoft.VisualStudioCode

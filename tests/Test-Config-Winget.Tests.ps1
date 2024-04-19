@@ -27,6 +27,7 @@ AfterAll {
 Describe 'Test-Config-Winget' {
     $Packages = [string[]](Get-Content -Path ${PSScriptRoot}\..\config\winget_dependencies.txt | Select-Object)
     It 'The Package "<_>" exists in winget' -ForEach $Packages {
-        Search-Winget-Package $_ | Should -Be $true
+        $package = $_ -replace "^#\s+", ""
+        Search-Winget-Package $package | Should -Be $true
     }
 }

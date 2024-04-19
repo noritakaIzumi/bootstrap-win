@@ -70,6 +70,13 @@ function InstallWingetDependencies
     $source = "winget"
     foreach ($dependency in $dependencies)
     {
+        if ($dependency.StartsWith("#"))
+        {
+            $realName = $dependency -replace "^#\s+", ""
+            Log "Skipping ${realName}..."
+            continue
+        }
+
         Log "Searching ${dependency} from the installed..."
         if ($Env:CI)
         {
