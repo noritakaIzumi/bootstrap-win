@@ -1,3 +1,23 @@
+function FindPowerShellExecutable
+{
+    Get-Command pwsh -ErrorAction SilentlyContinue > $null
+    if ($?)
+    {
+        "pwsh.exe"
+        return
+    }
+
+    Get-Command powershell -ErrorAction SilentlyContinue > $null
+    if ($?)
+    {
+        "powershell.exe"
+        return
+    }
+
+    Write-Error "PowerShell executable not found!!"
+    exit 1
+}
+
 function Log($message)
 {
     Write-Output "`n${message}`n"
@@ -12,7 +32,7 @@ function RunAsAdmin
 {
     param([string]$File, [string]$_Args = "")
 
-    Start-Process pwsh.exe "-File `"$File`" $_Args" -Verb RunAs -Wait
+    Start-Process (FindPowerShellExecutable) "-File `"$File`" $_Args" -Verb RunAs -Wait
 }
 
 function InstallChocoDependencies
