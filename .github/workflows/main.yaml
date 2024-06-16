@@ -1,0 +1,37 @@
+name: Test installation of packages using package manager on Windows
+
+on: push
+
+jobs:
+  Test-Package-Names-Real:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Pester
+        shell: pwsh
+        run: |
+          Install-Module -Name Pester -Force
+          Import-Module Pester -PassThru
+      - name: Install Winget
+        uses: Cyberboss/install-winget@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install package manager
+        shell: pwsh
+        run: |
+          .\init.ps1
+          (Resolve-Path ~\scoop\shims).Path >> $Env:GITHUB_PATH
+      - name: Test
+        shell: pwsh
+        run: |
+          $config = New-PesterConfiguration
+          $config.CodeCoverage.Enabled = $true
+          $config.CodeCoverage.OutputFormat = "JaCoCo"
+          $config.CodeCoverage.OutputPath = "test-results/coverage.xml"
+          $config.CodeCoverage.CoveragePercentTarget = 75
+          $config.TestResult.Enabled = $true
+          $config.TestResult.OutputFormat = "JUnitXml"
+          $config.TestResult.OutputPath = "test-results/testResults.xml"
+          $config.Output.Verbosity = "Detailed"
+          $config.Output.CIFormat = "GithubActions"
+          Invoke-Pester -Configuration $config
