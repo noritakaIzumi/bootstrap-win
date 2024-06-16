@@ -1,3 +1,23 @@
+function FindPowerShellExecutable
+{
+    Get-Command pwsh -ErrorAction SilentlyContinue > $null
+    if ($?)
+    {
+        "pwsh.exe"
+        return
+    }
+
+    Get-Command powershell -ErrorAction SilentlyContinue > $null
+    if ($?)
+    {
+        "powershell.exe"
+        return
+    }
+
+    Write-Error "PowerShell executable not found!!"
+    exit 1
+}
+
 function Log($message)
 {
     Write-Output "`n${message}`n"
@@ -12,19 +32,12 @@ function RunAsAdmin
 {
     param([string]$File, [string]$_Args = "")
 
-    Start-Process powershell.exe "-File `"$File`" $_Args" -Verb RunAs -Wait
+    Start-Process (FindPowerShellExecutable) "-File `"$File`" $_Args" -Verb RunAs -Wait
 }
 
 function InstallChocoDependencies
 {
     param([string]$File)
-
-    # Install chocolatey
-    if (!(Get-Command choco -ErrorAction SilentlyContinue))
-    {
-        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
-        Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-    }
 
     Log "Install choco dependencies: START"
 
@@ -57,17 +70,46 @@ function InstallWingetDependencies
     $source = "winget"
     foreach ($dependency in $dependencies)
     {
+        if ($dependency.StartsWith("#"))
+        {
+            $realName = $dependency -replace "^#\s+", ""
+            Log "Skipping ${realName}..."
+            continue
+        }
+
         Log "Searching ${dependency} from the installed..."
-        winget list --exact --id $dependency --source $source
+        if ($Env:CI)
+        {
+            winget list --exact --id $dependency --source $source --accept-source-agreements
+        }
+        else
+        {
+            winget list --exact --id $dependency --source $source
+        }
+
         if ($?)
         {
             Log "Upgrading ${dependency}..."
-            winget upgrade --exact --id $dependency --source $source
+            if ($Env:CI)
+            {
+                winget upgrade --exact --id $dependency --source $source --accept-package-agreements --accept-source-agreements
+            }
+            else
+            {
+                winget upgrade --exact --id $dependency --source $source
+            }
         }
         else
         {
             Log "Installing ${dependency}..."
-            winget install --exact --id $dependency --source $source
+            if ($Env:CI)
+            {
+                winget install --exact --id $dependency --source $source --accept-package-agreements --accept-source-agreements
+            }
+            else
+            {
+                winget install --exact --id $dependency --source $source
+            }
         }
     }
 
