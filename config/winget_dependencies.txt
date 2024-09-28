@@ -1,7 +1,6 @@
 Docker.DockerDesktop
 FiloSottile.mkcert
 GnuPG.Gpg4win
-GoLang.Go
 Google.Chrome
 Google.GoogleDrive
 JetBrains.Toolbox
