@@ -9,6 +9,5 @@ Microsoft.PowerShell
 Microsoft.VisualStudioCode
 Microsoft.WindowsTerminal
 SlackTechnologies.Slack
-Sony.MusicCenter
 Volta.Volta
 Zoom.Zoom
