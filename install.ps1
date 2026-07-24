@@ -66,51 +66,13 @@ function InstallWingetDependencies
 
     Log "Install winget dependencies: START"
 
-    $dependencies = [string[]](Get-Content -Path $File | Select-Object)
-    $source = "winget"
-    foreach ($dependency in $dependencies)
+    if ($Env:CI)
     {
-        if ($dependency.StartsWith("#"))
-        {
-            $realName = $dependency -replace "^#\s+", ""
-            Log "Skipping ${realName}..."
-            continue
-        }
-
-        Log "Searching ${dependency} from the installed..."
-        if ($Env:CI)
-        {
-            winget list --exact --id $dependency --source $source --accept-source-agreements
-        }
-        else
-        {
-            winget list --exact --id $dependency --source $source
-        }
-
-        if ($?)
-        {
-            Log "Upgrading ${dependency}..."
-            if ($Env:CI)
-            {
-                winget upgrade --exact --id $dependency --source $source --accept-package-agreements --accept-source-agreements
-            }
-            else
-            {
-                winget upgrade --exact --id $dependency --source $source
-            }
-        }
-        else
-        {
-            Log "Installing ${dependency}..."
-            if ($Env:CI)
-            {
-                winget install --exact --id $dependency --source $source --accept-package-agreements --accept-source-agreements
-            }
-            else
-            {
-                winget install --exact --id $dependency --source $source
-            }
-        }
+        winget import --import-file $File --accept-package-agreements --accept-source-agreements
+    }
+    else
+    {
+        winget import --import-file $File
     }
 
     Log "Install winget dependencies: END"
@@ -164,7 +126,7 @@ function Main
     $ConfigDir = "${PSScriptRoot}\config"
 
     InstallChocoDependencies -File ${ConfigDir}\choco_dependencies.txt
-    InstallWingetDependencies -File ${ConfigDir}\winget_dependencies.txt
+    InstallWingetDependencies -File ${ConfigDir}\winget_dependencies.json
     InstallScoopDependencies -BucketsFile ${ConfigDir}\scoop_buckets.txt -DependenciesFile ${ConfigDir}\scoop_dependencies.txt
 
     # End
