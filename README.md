@@ -22,8 +22,6 @@ Run the following commands to configure your global Git user information and sig
 git config --global user.email "you@example.com"
 git config --global user.name "Your Name"
 git config --global user.signingkey "YOUR_GPG_KEY_ID"
-git config --global commit.gpgsign true
-git config --global tag.gpgsign true
 git config --global core.autocrlf input
 git config --global core.editor vim
 git config --global commit.gpgsign true
