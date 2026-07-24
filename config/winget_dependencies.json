@@ -53,6 +53,19 @@
         "Name": "winget",
         "Type": "Microsoft.PreIndexed.Package"
       }
+    },
+    {
+      "Packages": [
+        {
+          "PackageIdentifier": "XPFCC4CD725961"
+        }
+      ],
+      "SourceDetails": {
+        "Argument": "https://storeedgefd.dsx.mp.microsoft.com/v9.0",
+        "Identifier": "StoreEdgeFD",
+        "Name": "msstore",
+        "Type": "Microsoft.Rest"
+      }
     }
   ],
   "WinGetVersion": "1.29.280"
