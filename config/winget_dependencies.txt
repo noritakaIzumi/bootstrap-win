@@ -1,5 +1,6 @@
 Docker.DockerDesktop
 FiloSottile.mkcert
+Git.Git
 GnuPG.Gpg4win
 Google.Chrome
 Google.GoogleDrive
