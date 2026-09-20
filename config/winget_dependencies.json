@@ -45,6 +45,9 @@
         },
         {
           "PackageIdentifier": "Zoom.Zoom"
+        },
+        {
+          "PackageIdentifier": "Rustlang.Rustup"
         }
       ],
       "SourceDetails": {

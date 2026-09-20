@@ -12,6 +12,31 @@ Now run `install.ps1`.
 
 ## After installation
 
+### Finish WinGet setup
+
+`install.ps1` imports the packages listed in [config/winget_dependencies.json](config/winget_dependencies.json).
+This JSON declares packages to install; it cannot run post-install commands or restart your terminal or IDE.
+After installation, close and reopen your terminal application and IDE (including WebStorm) so they pick up changes to `PATH`.
+For an IDE terminal, restart the IDE itself before opening a new terminal tab.
+
+### Set up Rust and Cargo for Tauri
+
+`install.ps1` installs Rust and Cargo through the `Rustlang.Rustup` package in the WinGet package list.
+The following steps are still required after installation:
+
+1. Close and reopen your terminal application and IDE to refresh `PATH`.
+2. Select the stable MSVC toolchain and verify the installation in a new PowerShell session:
+
+   ```powershell
+   rustup default stable-msvc
+   rustc --version
+   cargo --version
+   ```
+
+Building Tauri apps on Windows also requires Microsoft C++ Build Tools with the **Desktop development with C++** workload
+and the WebView2 Runtime. Installing the Build Tools package alone does not ensure the required workload is selected.
+See the [Tauri prerequisites](https://tauri.app/start/prerequisites/) for installation instructions.
+
 ### Configure Git
 
 Open Git Bash.
